@@ -16,7 +16,7 @@
 \makeatother
                              % The preamble begins here.
 \title{The Largest and the Smallest Pythagorean Number from randomly generated 1000 Natural Numbers}  % Declares the document's title.
- \author{Akshay Gupta~{IIT2017505}, \hspace{6pt}Naman Deept~{IIT2017507},  \hspace{6pt}Snigdha Dobhal~{IIT2017506}
+ \author{Akshay Gupta~{IIT2017505}, \hspace{6pt}Naman Deept~{IIT2017507}  \hspace{6pt}Snigdha Dobhal~{IIT2017506}
  }
 \date{\today}      % Deleting this command produces today's date.
 \renewcommand\Authands{ and }
@@ -36,7 +36,7 @@
 \center % Center everything on the page
  
 %----------------------------------------------------------------------------------------
-%	HEADING SECTIONS
+%   HEADING SECTIONS
 %----------------------------------------------------------------------------------------
 
 \textsc{\LARGE Assignment 1}\\[1.5cm] % Name of your university/college
@@ -45,7 +45,7 @@
 \textsc{\large IDAA432C}\\[0.5cm] % Minor heading such as course title
 
 %----------------------------------------------------------------------------------------
-%	TITLE SECTION
+%   TITLE SECTION
 %----------------------------------------------------------------------------------------
 
 \HRule \\[0.4cm]
@@ -53,7 +53,7 @@
 \HRule \\[1.5cm]
  
 %----------------------------------------------------------------------------------------
-%	AUTHOR SECTION
+%   AUTHOR SECTION
 %----------------------------------------------------------------------------------------
 
 \begin{minipage}{0.4\textwidth}
@@ -71,7 +71,7 @@ Snigdha Dobhal \textbf{(IIT2017506)}
 %John \textsc{Smith}\\[3cm] % Your name
 
 %----------------------------------------------------------------------------------------
-%	DATE SECTION
+%   DATE SECTION
 %----------------------------------------------------------------------------------------
 
 {\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
@@ -88,7 +88,7 @@ Snigdha Dobhal \textbf{(IIT2017506)}
 
 \section{Abstract} 
 \textbf{T}his paper introduces several algorithms to find the largest and the smallest \textbf{Pythagorean} Numbers from the randomly generated array of \textbf{N}atural Numbers and then the most optimal approach to the problem is considered to efficiently solve the problem.\\
-\textbf{Keywords}: \textit{Pythagorean}, \textit{Pythagorean Triplets}, \textit{Primes}, \textit{Largest}, \textit{Smallest}
+\textbf{Keywords}: \textit{Pythagorean}, \textit{Pythagorean Triples}, \textit{Primes}, \textit{Euclid's Formula}, \textit{Pythagorean prime}
 \section{Introduction}
 { \textbf{Pythagorean Number:}} A Natural number \textbf{a} is said to be a Pythagorean number if it can be written as sum of the square of two smaller Natural numbers \textbf{b} and \textbf{c} , such that ,
 \begin{center}\textbf{$a^2 = b^2 + c^2$}\end{center}
@@ -96,38 +96,13 @@ Such a triple is commonly written \textbf{(a, b, c)}, and a well-known example i
 \section{Proposed Method}
 \textbf{Input}: Given 1000 randomly generated Natural numbers in an array , the aim is to find the largest and the smallest Pythagorean Number from this array of natural numbers ranging in between $10^4$ to $10^6$.
 \subsection {Naive approach}
-First method could be to check for all the numbers less than the value of $\textbf{n}$ for a given number $\textbf{n}$ if it can be written as sum of squares of such numbers. For this we need to find a pair of integer numbers $\textbf{i}$ and $\textbf{j}$ such that if ${i^2 + j^2=n^2}$ then we can clearly say the given number is a Pythagorean number ,else if the condition fails to hold for every possibles integers $\textbf{i}$ and $\textbf{j}$ then our number is not Pythagorean.
+First method could be to check whether there exist any number \textbf{i} less than  the given number \textbf{n} such that $n^2 - i^2$ is a perfect square . If such a number exist then the given number is a Pythagorean Number . 
 \subsubsection{Algorithm for the Naive Approach}
 \begin{algorithm}
 \begin{algorithmic}[1]
 \Procedure{checkPythagorean}{$n$}
-\For {$i \gets 3 \hspace{4pt} to \hspace{4pt} ${n-1}$ $}
-\For{$j \gets ${i+1}$ \hspace{4pt} to \hspace{4pt} n$}
-\If{ {$i^2 + j^2$ equals $n^2$}}
-\State return 1
-\EndIf
-\EndFor
-\EndFor
-\State return 0
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-\subsubsection{Time analysis}
-\textbf{Best Case}: The best case complexity will hold here if the value of ${n}$ equals 5. For the value 5 both the loops will run for 1 time.Hence for the best case complexity the total time taken will be (3+3) units (1 for each loop computation) .So for the best case complexity , the time taken will be of the order of 1 ,so the time taken in this case will be ${t_\omega}$ = 6
-But in the given case the numbers are in the range of ${10^4}$ to ${10^6}$ .So the complexity will be increased for sure.The best case will be computed for ${10^4}$ .Since ${10^4}$ is a Pythagorean,So we can split ${i}$ and ${j}$ such that ${i^2}$+${j^2}$=${10^8}$. So the minimum time taken in this case will be (assuming every operation takes a unit time) which is given by \begin{center} ${t_\Omega}$ $\propto\ {\sum_{i=3}^{6.{10^3}}$ $(n-i-1)$
-\end{center} which approximates to $\sim \Omega(n^2)$  for the given range of n. Hence the complexity will be \Omega(${n^2}$).\\\ 
-\textbf{Average Case} : The average case complexity will hold for the value where the loops are running by prerequisite greater time than the best case but lesser time than the worst case .Average case complexity is denoted by $\theta$ notation when the complexities in the best case and the worst case are the same.In this case it is same. So complexity is \theta(${n^2}$).\\\
-\textbf{Worst Case} : The worst case complexity can occur if the number is not indeed a Pythagorean number .So the entire loop iteration will run for maximum times and so the complexity will be O(${n^2}$).
-
-\subsection{Better Approach}
-A better method could be to check whether for every number from \textit{i} to given number \textit{n} if \textbf{$n^2-i^2$} is a perfect square .
-\newpage
-\subsubsection{Algorithm for the better approach }
-\begin{algorithm}
-\begin{algorithmic}[1]
-\Procedure{checkPythagorean}{$n$}
-\For {$i \gets 3 \hspace{4pt} to \hspace{4pt} ${n}$ $}
-\State $k$ \gets \hspace{2pt} $\sqrt{(n^2-i^2)}$
+\For {$i \gets 3 \hspace{4pt} to \hspace{4pt} {n} $}
+\State $k$ \gets \hspace{2pt} $\sqrt{(n^2 - i^2)}$
 \State $l$ \gets \hspace{2pt} $k^2$
 \If{ {$l$ equals $n^2-i^2$}}
 \State return 1
@@ -137,13 +112,37 @@ A better method could be to check whether for every number from \textit{i} to gi
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
-\subsubsection{Time Analysis}
-\textbf{Best Case}: For the best case of the algorithm we need to consider the smallest possible value in the range of the number ,and the value is ${10^4}$ which itself takes ${6.10^3-2}$ iterations. Consider the time taken for the single iteration to be ${x}$ units .So the total time will be approximately t_\omega \propto  ${(6.10^3-2)}.x$ and hence the complexity becomes overall closer to n.So the notation will be $\Omega(${n}$)$ .\\
-\textbf{Average Case} : In this case the complexity is $\Theta(n)$.\\
+\subsubsection{Time analysis}
+\textbf{Best Case}: For the best case of the algorithm we need to consider the smallest possible value in the range of the number ,and the value is ${10^4}$ which itself takes ${6.10^3-2}$ iterations. Consider the time taken for the single iteration to be ${x}$ units .So the total time will be approximately t_\Omega \propto  ${(6.10^3-2)}.x$ and hence the complexity becomes overall closer to n.So the notation will be $\Omega($n$)$ .\\
+\textbf{Average Case} : In this case the complexity is $\Theta($n$)$.\\
 \textbf{Worst Case} : The worst case complexity can occur if the number is not indeed a Pythagorean number .So  the complexity will be O(${n}$).\\
+\subsection{Better Approach}
+A better method could be implementing \textbf{Euclid's} formula which is a general formula for generating Pythagorean numbers, given any arbitrary pair of integers m and n where $m>n>0$,  if $c^2=a^2+b^2$ then
+\begin{center}
+    \textbf{$c = m^2 + n^2 , b =2mn , a = m^2-n^2$}
+\end{center}
+ The triple generated by Euclid's formula is primitive if and only if m and n are coprime and not both odd. When both m and n are odd, then a, b, and c will be even, and the triple will not be primitive; however, dividing a, b, and c by 2 will yield a primitive triple when m and n are coprime and both odd.
+\subsubsection{Algorithm for the better approach }
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{checkPythagorean}{$n$}
+\For {$i \gets 1 \hspace{4pt} to \hspace{4pt} \sqrt{n} $}
+\State $k$ \gets \hspace{2pt} $\sqrt{(n - i^2)}$
+\State $l$ \gets \hspace{2pt} $k^2$
+\If{ {$l$ equals $n-i^2$}}
+\State return 1
+\EndIf
+\EndFor
+\State return 0
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\subsubsection{Time Analysis}
+\textbf{Best Case}: For the best case of the algorithm we need to consider the smallest possible value in the range of the number ,and the value is ${10^4}$ which itself takes only ${60}$ iterations. Consider the time taken for the single iteration to be ${x}$ units .So the total time will be approximately \begin{center}t_\Omega \propto\  ${60.${x}$$  $\end{center}and hence the complexity becomes overall closer to $\sqrt{n}$ which is 100.So the notation will be $\Omega(${\sqrt{n}}$)\ .\\
+\textbf{Average Case} : In this case the complexity is $\Theta(\sqrt{n}$).\\\
+\textbf{Worst Case} : The worst case complexity can occur if the number is not indeed a Pythagorean number .So  the complexity will be O($\sqrt{n}$).\\
 \subsection{Optimal Approach}
 We know that all Pythagorean number are multiples of Pythagorean prime which are prime number of the form of ${4n+1}$. Now to check whether the given number is Pythagorean number or not we can check if any of the prime factor of the given number is a Pythagorean prime or not . 
-\newpage
 \subsubsection{Algorithm for the Optimal Approach}
 \begin{algorithm}
 \begin{algorithmic}[1]
@@ -175,7 +174,6 @@ We know that all Pythagorean number are multiples of Pythagorean prime which are
 \includegraphics[scale=0.3]{optgraph.jpg}
 \caption{Comparing best case and worst case complexity in optimal approach}
 \end{figure}
-\newpage
 \subsection{Main Function}
 \subsubsection{\textbf{V}ariables:}
 \paragraph{1)}\textbf{a[]} is the given array of randomly generated natural numbers of size 1000 which is in the range from $10^4$ to $10^6$ .
@@ -215,6 +213,8 @@ We analyzed various algorithms to find the largest and the smallest Pythagorean 
 \begin{enumerate}
 \item IDAA432C (Design and Analysis of Algorithm) class lecture
 \item Pythagorean triples reference -\\${https://en.wikipedia.org/wiki/Pythagorean_triple}$
+\item Euclid's formula  reference\\
+${http://demonstrations.wolfram.com/EuclidsFormula}$\\${AndPropertiesOfPythagoreanTriples/}$
 \item Introduction to Algorithms by Cormen
 \end{enumerate}
 \end{document}               % End of document.
