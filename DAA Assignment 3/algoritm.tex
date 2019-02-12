@@ -1,0 +1,248 @@
+% This is a sample LaTeX input file.  (Version of 12 August 2004.)
+%
+% A '%' character causes TeX to ignore all remaining text on the line,
+% and is used for comments like this one.
+\documentclass[twocolumn]{article}      % Specifies the document class
+\usepackage{authblk}
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{ragged2e}
+\usepackage{tabu}
+\newcommand\NoDo{\renewcommand\algorithmicdo{}}
+\newcommand\ReDo{\renewcommand\algorithmicdo{\textbf{do}}}
+\newcommand\NoThen{\renewcommand\algorithmicthen{}}
+\newcommand\ReThen{\renewcommand\algorithmicthen{\textbf{then}}}
+\renewcommand\algorithmicthen{}
+\renewcommand\algorithmicdo{}
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
+                             % The preamble begins here.
+\title{Finding the largest sorted sequence of a randomly generated $50\times50$ matrix diagonally}  % Declares the document's title.
+ \author{Akshay Gupta~{IIT2017505}, \hspace{6pt}Naman Deept~{IIT2017507},\hspace{6pt}Snigdha Dobhal~{IIT2017506}  \\Dept. of Information Technology\\Indian Institute of Information Technology  Allahabad
+ }
+ 
+%\date{\today}      % Deleting this command produces today's date.
+\renewcommand\Authands{ and }
+\newcommand{\ip}[2]{(#1, #2)}
+                             % Defines \ip{arg1}{arg2} to mean
+                             % (arg1, arg2).
+
+%\newcommand{\ip}[2]{\langle #1 | #2\rangle}
+                             % This is an alternative definition of
+                             % \ip that is commented out.
+
+\begin{document}             % End of preamble and beginning of text.
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Assignment 2}\\[1.5cm] % Name of your university/college
+\includegraphics[scale = 0.7]{iiitlogo2.jpg}\\[1cm]
+\textsc{\Large Design and Analysis of Algorithm}\\[0.5cm] % Major heading such as course name
+\textsc{\large IDAA432C}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \large \bfseries Find the 5 largest sorted sequence from $50\times50$ matrix diagonally }\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\textbf{\emph{Submitted By:}}\\
+Akshay Gupta \textbf{(IIT2017505)}\\
+Naman Deept \textbf{(IIT2017507)}\\
+Snigdha Dobhal\textbf{IIT2017506}\\
+\end{flushleft}
+\end{minipage}\\[2cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+\maketitle                   % Produces the title.
+
+
+    % Produces section heading.  Lower-level
+                             % sections are begun with similar 
+                             % \subsection and \subsubsection commands.
+
+\section{Abstract} 
+This paper introduces an algorithm to find the 5 largest sorted sequence from a $50\times50$ matrix diagonally. This algorithm uses \textbf{O($n^2$)} time complexity to generate the sequences and the \textbf{O($n^2$)} time complexity to find the occurrences of the sorted length. \\
+\textbf{Keywords}: \textit{Largest}, \textit{Sorted}, \textit{Sequence}, \textit{Diagonal of  the Matrix}, \textit{Occurrences}
+\section{Introduction}
+A matrix is collections of numbers arranged into fixed number of rows and columns ,which usually contains real numbers but complex number operation can also be performed using this matrices. In the given problem , a $50\times50$ matrix is given whose numbers lie ranging in between 0 to 9 and we need to find the 5 largest sorted sub-sequence occurring diagonally.
+A $50\times50$ matrix will have total 198 diagonals ranging from the length of 1 to 50. Any sorted sequence from such sequence which is populated by numbers from 0 to 9 will be at max of length 10 if it occurs in strictly sorted order either increasing or decreasing . 
+\section{Proposed Method}
+\textbf{Input} : A $50\times50$ matrix with randomly generated numbers ranging from 0 to 9.
+\subsection{Algorithm}
+First all the diagonal sequence of the matrix was stored in an linked list of array which was later used to generate all the sorted sequence in a diagonal sequence of matrix . Diagonal was considered both from left to right and right to left and sorted sequence was considered both in increasing and decreasing order . The generated sorted sequence from diagonal sequence were once again stored in an array of linked lists which was then sorted on the basis of length of the given sequence . The top 5 sequence was printed as the largest sorted sequence . Then an array to count the frequency of each sorted sequence on the basis of length was counted.\\\\
+Input:\\
+A $50\times50$ matrix which is populated by numbers ranging in between 0 to 9.
+Output:\\
+All the diagonal elements of the given array.\\
+5 largest sorted sequence from the given array from the diagonal sequences.\\
+Frequency of sequences in order of their length .
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{SortedSequence}{$ArrayList<ArrayList<Integer>>diag$}
+\State $ArrayList<ArrayList<Integer>>empty$ $\gets$ $null$
+\State $ArrayList<Integer>x$ $\gets$ $null$
+\For{$x$ \hspace{3pt} in\hspace{3pt} $diag$}
+\If{$x.size() \geq 2$}
+\State $ArrayList<Integer>newList$ $\gets$ $null$
+\State $count$ $\gets$ $0$
+\State $newList$ $\gets$ $newList+[0]$ 
+\For{$i \gets 0\hspace{2pt} to\hspace{2pt} x.size()-1$}
+\If{$x.get(i)$ $<$ $x.get(i+1)$}
+\State $continue$
+\EndIf
+\If{ $x.get(i)$ $\geq$ $x.get(i+1)$}
+\State $count$ $\gets$ $count+1$
+\State $newList$ $\gets$ $newList + [i+1]$
+\EndIf
+\EndFor
+\State $count$ $\gets$ $count+1$
+\State $newList$ $\gets$ $newList+[x.size()]$
+\State $j$ $\gets$ $0$
+\While{$count$ $>$ $0$}
+\State $ArrayList<Integer>tmp$ $\gets$ $null$
+\For{$i$ $\gets$ $newList[j]$\hspace{2pt} to\hspace{2pt} $newList[j+1]$}
+\State $tmp$ $\gets$ $tmp+[x[i]] $
+\EndFor
+\State $empty$ $\gets$ $empty+[tmp]$
+\State $j$ $\gets$ $j+1$
+\State $count$ $\gets$ $count-1$
+\EndWhile
+\State $count1$ $\gets$ $0$
+\For{$i \gets 0\hspace{2pt} to\hspace{2pt} newLis.size()-1$}
+\If{$x.get(i)$ $>$ $x.get(i+1)$}
+\State $continue$
+\EndIf
+\If{ $x.get(i)$ $\geq$ $x.get(i+1)$}
+\State $count1$ $\gets$ $count+1$
+\State $newList$ $\gets$ $newList + [i+1]$
+\EndIf
+\EndFor
+\State $count1$ $\gets$ $count1+1$
+\State $newList$ $\gets$ $newList+[x.size()]$
+\algstore{myalg1}
+  \end{algorithmic}
+\end{algorithm}
+\begin{algorithm}
+  \begin{algorithmic}
+      \algrestore{myalg1}
+\State $j1$ $\gets$ $0$
+\While{$count1$ $>$ $0$}
+\State $ArrayList<Integer>tmp1$ $\gets$ $null$
+\For{$i$ $\gets$ $newList[j]$\hspace{2pt} to\hspace{2pt} $newList[j+1]$}
+\State $tmp1$ $\gets$ $tmp1+[x[i]] $
+\EndFor
+\State $empty$ $\gets$ $empty+[tmp]$
+\State $j1$ $\gets$ $j1+1$
+\State $count1$ $\gets$ $count1-1$
+\EndWhile
+\EndFor
+\EndIf
+\If{$diag.size()$ $<$ $2$}
+\State $empty$ $\gets$ $empty+[x]$
+\EndIf
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+\newpage
+\begin{algorithm}
+\begin{algorithmic}[1]
+\Procedure{Driverfunction}{$main$}
+\State $Array[][]$ $\gets$ $null$
+\For{$i$ $\gets$ $0$\hspace{2pt}to\hspace{2pt} $50$}
+\For{$j$ $\gets$ $0$\hspace{2pt}to\hspace{2pt} $50$}
+\State $Array[i][j]$ $\gets$ $Math.random()\times10$(to int)
+\EndFor
+\EndFor
+\State $ArrayList<ArrayList<Integer>>list$ $\gets$ $null$
+\State $n$ $\gets$ $50$
+\For{$slice$ $\gets$ $0$\hspace{2pt}to\hspace{2pt} $2\times${n}$-1$}
+\State $ArrayList<Integer>l$ $\gets$ $null$
+\State $z$ $\gets$ $0$
+\If{$slice<n$}
+\State $z$ $\gets$ $0$
+\EndIf
+\If{$slice$ $\geq$ $n$}
+\State $z$ $\gets$ $slice-n+1$ 
+\For{$j$ $\gets$ $z$\hspace{2pt}to\hspace{2pt} $slice-z$}
+\State $l$ $\gets$ $l+[arr[j][slice-j]]$
+\EndFor
+\State $list$ $\gets$ $list+[l]$
+\EndFor
+\For{$i$ $\gets$ $0$\hspace{2pt}to\hspace{2pt} $49$}
+\State $ArrayList<Integer>a$ $\gets$ $null$
+\For{$j$ $\gets$ $0$\hspace{2pt}to\hspace{2pt} $49$}
+\State $a$ $\gets$ $a+[arr[j][j-i]]$
+\EndFor
+\State $list$ $\gets$ $list+[a]$
+\EndFor
+\For{$i$ $\gets$ $0$\hspace{2pt}to\hspace{2pt} $48$}
+\State $ArrayList<Integer>a$ $\gets$ $null$
+\For{$j$ $\gets$ $0$\hspace{2pt}to\hspace{2pt} $49$}
+\State $a$ $\gets$ $a+[arr[j-i-1][j]]$
+\EndFor
+\State $list$ $\gets$ $list+[a]$
+\EndFor
+\State $newList$ $\gets$ $SORTEDSEQUENCE($list$)$
+\State $newList$ $\gets$ $newList.sort()$
+\State $occurence$ $\gets$ $null$
+\State $ArrayList<Integer>i$ $\gets$ $null$
+\For{$i$ \hspace{3pt} in\hspace{3pt} $newList$}
+\State $occurence[i.size()]$ $\gets$ $occurence[i.size()]+1$
+\EndFor
+\end{algorithmic}
+\end{algorithm}
+\newpage
+\subsubsection{Time Complexity Analysis}
+
+\textbf{Best Case}- In each of the case , to store all the diagonal elements of the square matrix , it takes \textbf{O($n^2$)} time complexity . Even if all the sequences are sorted in the diagonals it would take \textbf{O($n^2$)} time complexity to store all those sequences . So, overall time complexity will be dependent on finding the diagonal elements and the sorted sequences and hence the best case time complexity will be \textbf{\Omega($n^2$)}.\\
+\textbf{Worst Case}- If all the sequences of the diagonal are not sorted \textit{i.e.} then we need to count number of times there was fluctuation from increasing sequence to decreasing sequence and vice-versa. Let such a count be 'c' , in any case c will be far lesser than the 'n' which is the order of the matrix. Since in any case , time complexity also depends upon \newpage\\1. Finding all the diagonal elements of the given matrix which takes time complexity proportional to \textbf{O($n^2$)}.\\2. Finding all the increasing and decreasing sub-sequence from these sequence of diagonal elements which also takes time proportional to \textbf{O($n^2$)}.\\3. Sorting all those sequences in order of their length which takes time proportional to \textbf{O($n^2$)} .\\4. Finding all such occurrences for the given length which also takes time proportional to \textbf{O(n)}.\\
+So, overall time complexity will also be proportional to \textbf{O($n^2$)}.\\
+\textbf{Average Case}- Since both the best case and the worst case are proportional to $n^2$ , hence the average case time complexity is also proportional to \textbf{\Theta($n^2$)}.
+\newpage
+\section{Experimental results}
+Below graph shows the time taken by the algorithm to perform over several different order of matrix and as shown by the graph the curvature corresponds to similar curvature to that of $x^2$ graph , which strengthens the time complexity to be proportional to \textbf{O($n^2$)}.
+\begin{figure}
+\hspace*{-0.5cm}
+\includegraphics[scale=0.4]{daa3.png}
+\caption{Figure: Graph showing the experimental analysis  }\\
+\end{figure}
+\newpage
+\section{Conclusion}
+We used 2-d dynamic array to firstly store all the diagonal elements of the given matrix , then we used another 2-d dynamic array to store all the sorted sub-sequences it produced . We then sorted the latter array on the basis of length of sorted sub-sequences it had .Then the 5 largest sorted sub-sequence were printed and the number of occurrences of each sequence of given length was counted. 
+\section{References}
+\begin{enumerate}
+\item IDAA432C (Design and Analysis of Algorithm) class lecture
+\item Introduction to Algorithms by Cormen
+\end{enumerate}
+\end{document}
